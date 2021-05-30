@@ -59,7 +59,11 @@ Central Business District CBD 3020 – Malta`
         </td>
       </tr>
     </table>
-    <img src="/logo.png" alt="Risk Management logo" style={styles.logo}>
+    <img
+      src="https://gifted-mcclintock-bdf3d5.netlify.app/logo.png"
+      alt="Risk Management logo"
+      style={styles.logo}
+    >
   </div>
   <div>
       <div class="form-control">
@@ -99,25 +103,25 @@ Central Business District CBD 3020 – Malta`
   }
 
   button {
-  margin-top: 20px;
-  padding: 0.755rem 1rem;
+    margin-top: 20px;
+    padding: 0.755rem 1rem;
 
-  font-family: inherit;
-  font-weight: bold;
-  font-size: 1.2rem;
-  text-transform: uppercase;
-  text-decoration: none;
+    font-family: inherit;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    text-decoration: none;
 
-  border: none;
-  color: white;
-  background: #840b55;
-  border-radius: 3px;
+    border: none;
+    color: white;
+    background: #840b55;
+    border-radius: 3px;
 
-  cursor: pointer;
-  transition: background 0.25s ease-in-out;
-}
+    cursor: pointer;
+    transition: background 0.25s ease-in-out;
+  }
 
-button:hover {
-  background-color: hsl(323, 85%, 20%);
-}
+  button:hover {
+    background-color: hsl(323, 85%, 20%);
+  }
 </style>
