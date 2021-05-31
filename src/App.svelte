@@ -185,6 +185,16 @@
       <button type="button" on:click={generateSignature}>Save</button>
   </div>
 </main>
+<aside class="instructions">
+  <h2>Instructions</h2>
+  <ol>
+    <li>Update the name and designation, add a mobile number if necessary.</li>
+    <li>Save the generated Outlook signature.</li>
+    <li>Navigate to <strong>%USERPROFILE%\AppData\Roaming\Microsoft\Signatures</strong> (you can paste the path directly into Windows Explorer).</li>
+    <li>Extract the saved zip file into the Signatures folder.</li>
+    <li>Start Outlook and set the new signature as the default.</li>
+  </ol>
+</aside>
 
 <canvas
   bind:this={canvasElement}
@@ -226,5 +236,10 @@
 
   button:hover {
     background-color: hsl(323, 85%, 20%);
+  }
+
+  .instructions {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 1rem;
   }
 </style>
