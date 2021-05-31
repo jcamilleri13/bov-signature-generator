@@ -26,7 +26,7 @@
     global: 'font-family: Trebuchet MS, sans-serif;',
     name: 'font-size: 20px; font-weight: bold; margin-left: 10px;',
     designation: 'font-size: 16px; font-weight: bold; margin-bottom: 20px; margin-left: 10px;',
-    info: 'font-size: 16px; padding-left: 20px;',
+    info: 'font-size: 14px; padding-left: 20px;',
     address: 'margin-top: 10px;',
     logo: 'margin-top: 20px;'
   }
