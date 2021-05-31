@@ -140,7 +140,12 @@
         </tr>
       </table>
       <div style={styles.logo}>
-        <img src={logo} alt="Risk Management logo" >
+        <img
+          src={logo}
+          alt="Risk Management logo"
+          width="250"
+          height="61"
+        >
       </div>
     </div>
   </div>
