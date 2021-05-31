@@ -42,30 +42,36 @@
   $: circleB = generateDots(name, PATTERN_WIDTH, PATTERN_HEIGHT).circleB
 
   async function savePng () {
-    // PNG already saved, SVG is not in the DOM.
-    if (!svgElement) return
+    const promise = new Promise<void>((resolve, reject) => {
+      // PNG already saved, SVG is not in the DOM.
+      if (!svgElement) return
 
-    const data = (new XMLSerializer()).serializeToString(svgElement)
+      const data = (new XMLSerializer()).serializeToString(svgElement)
 
-    const image = new Image()
-    image.src = 'data:image/svg+xml;base64,' + window.btoa(data)
+      const image = new Image()
+      image.onload = async () => {
+        const canvasContext = canvasElement.getContext('2d')
+        canvasContext.drawImage(image, 0, 0)
+        const dataUrl = canvasElement.toDataURL('image/png')
 
-    image.onload = async () => {
-      const canvasContext = canvasElement.getContext('2d')
-      canvasContext.drawImage(image, 0, 0)
-      const dataUrl = canvasElement.toDataURL('image/png')
+        const formData = new FormData()
+        formData.append('file', dataUrl)
+        formData.append('upload_preset', 'bov-signature-generator')
 
-      const formData = new FormData()
-      formData.append('file', dataUrl)
-      formData.append('upload_preset', 'bov-signature-generator')
+        const response = await fetch('https://api.cloudinary.com/v1_1/bezbizija/image/upload', {
+          method: 'POST',
+          body: formData
+        }).then(response => response.text())
 
-      const response = await fetch('https://api.cloudinary.com/v1_1/bezbizija/image/upload', {
-        method: 'POST',
-        body: formData
-      }).then(response => response.text())
+        imageSource = JSON.parse(response).url
+        resolve()
+      }
 
-      imageSource = JSON.parse(response).url
-    }
+      image.src = 'data:image/svg+xml;base64,' + window.btoa(data)
+    })
+
+
+    return promise
   }
 
   async function generateSignature () {
@@ -94,7 +100,7 @@
 
     const zip = new JSZip()
     const zipFile = await zip
-      .file(`${name}.html`, signatureHtmlBlob)
+      .file(`${name}.htm`, signatureHtmlBlob)
       .file(`${name}.txt`, signaturePlainTextBlob)
       .generateAsync({ type: 'blob' })
 
