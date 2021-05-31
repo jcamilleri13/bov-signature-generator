@@ -187,6 +187,8 @@
     <li>Extract the saved zip file into the Signatures folder.</li>
     <li>Start Outlook and set the new signature as the default.</li>
   </ol>
+  <br>
+  <em>(Tested on Firefox, Chrome, and Edge.)</em>
 </aside>
 
 <canvas
