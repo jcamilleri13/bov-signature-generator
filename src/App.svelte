@@ -1,6 +1,7 @@
 <script lang="ts">
   import { address as defaulAddress } from './address'
   import { generateDots } from './dots'
+  import { logo } from './logo'
   import { tick } from 'svelte'
   import { saveAs } from 'file-saver'
   import JSZip from 'jszip'
@@ -34,7 +35,7 @@
   function onNameChange (e) {
     name = e.target.value
 
-    // Reset any constrcuted PNGs.
+    // Reset any constructed PNGs.
     imageSource = undefined
   }
 
@@ -49,21 +50,11 @@
       const data = (new XMLSerializer()).serializeToString(svgElement)
 
       const image = new Image()
-      image.onload = async () => {
+      image.onload = () => {
         const canvasContext = canvasElement.getContext('2d')
         canvasContext.drawImage(image, 0, 0)
-        const dataUrl = canvasElement.toDataURL('image/png')
+        imageSource = canvasElement.toDataURL('image/png')
 
-        const formData = new FormData()
-        formData.append('file', dataUrl)
-        formData.append('upload_preset', 'bov-signature-generator')
-
-        const response = await fetch('https://api.cloudinary.com/v1_1/bezbizija/image/upload', {
-          method: 'POST',
-          body: formData
-        }).then(response => response.text())
-
-        imageSource = JSON.parse(response).url
         resolve()
       }
 
@@ -149,10 +140,7 @@
         </tr>
       </table>
       <div style={styles.logo}>
-        <img
-          src="https://gifted-mcclintock-bdf3d5.netlify.app/logo.png"
-          alt="Risk Management logo"
-        >
+        <img src={logo} alt="Risk Management logo" >
       </div>
     </div>
   </div>
