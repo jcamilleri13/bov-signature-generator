@@ -24,9 +24,9 @@
 
   const styles = {
     global: 'font-family: Trebuchet MS, sans-serif;',
-    name: 'font-size: 20px; font-weight: bold;',
-    designation: 'font-size: 16px; font-weight: bold; margin-bottom: 20px;',
-    info: 'font-size: 14px; padding-left: 10px;',
+    name: 'font-size: 20px; font-weight: bold; margin-left: 10px;',
+    designation: 'font-size: 16px; font-weight: bold; margin-bottom: 20px; margin-left: 10px;',
+    info: 'font-size: 16px; padding-left: 20px;',
     address: 'margin-top: 10px;',
     logo: 'margin-top: 20px;'
   }
@@ -80,7 +80,7 @@
     // Wait for Svelte to update the DOM.
     await tick()
 
-    const signatureHtml = signature.outerHTML
+    const signatureHtml = signature.innerHTML
     const signatureHtmlBlob = new Blob([signatureHtml], {
       type: "text/plain;charset=utf-8"
     })
@@ -109,8 +109,9 @@
 </script>
 
 <main>
-  <div>
-    <div bind:this={signature} style={styles.global}>
+  <div bind:this={signature}>
+    <meta charset="utf-8"/>
+    <div style={styles.global}>
       <div>
         <div style={styles.name}>{name}</div>
         <div style={styles.designation}>{designation}</div>
@@ -147,11 +148,12 @@
           </td>
         </tr>
       </table>
-      <img
-        src="https://gifted-mcclintock-bdf3d5.netlify.app/logo.png"
-        alt="Risk Management logo"
-        style={styles.logo}
-      >
+      <div style={styles.logo}>
+        <img
+          src="https://gifted-mcclintock-bdf3d5.netlify.app/logo.png"
+          alt="Risk Management logo"
+        >
+      </div>
     </div>
   </div>
   <div>
