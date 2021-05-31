@@ -1,11 +1,13 @@
-import svelte from 'rollup-plugin-svelte';
+import fs from 'fs';
+import path from 'path';
+
 import commonjs from '@rollup/plugin-commonjs';
 import resolve from '@rollup/plugin-node-resolve';
+import typescript from '@rollup/plugin-typescript';
 import livereload from 'rollup-plugin-livereload';
+import svelte from 'rollup-plugin-svelte';
 import { terser } from 'rollup-plugin-terser';
 import sveltePreprocess from 'svelte-preprocess';
-import typescript from '@rollup/plugin-typescript';
-import css from 'rollup-plugin-css-only';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -30,25 +32,36 @@ function serve() {
 	};
 }
 
+function inlineSvelte(templatePath) {
+  return {
+    name: 'Svelte Inliner',
+    generateBundle(opts, bundle) {
+      const file = path.parse(opts.file).base;
+      const jsCode = bundle[file].code;
+      const template = fs.readFileSync(templatePath, 'utf-8');
+      bundle[file].code = template
+        .replace('%%script%%', jsCode);
+    }
+  }
+}
+
 export default {
 	input: 'src/main.ts',
 	output: {
-		sourcemap: true,
 		format: 'iife',
 		name: 'app',
-		file: 'public/build/bundle.js'
+		file: 'dist/signature-generator.html'
 	},
 	plugins: [
 		svelte({
 			preprocess: sveltePreprocess({ sourceMap: !production }),
 			compilerOptions: {
 				// enable run-time checks when not in production
-				dev: !production
-			}
+				dev: !production,
+			},
+
+			emitCss: false
 		}),
-		// we'll extract any component CSS out into
-		// a separate file - better for performance
-		css({ output: 'bundle.css' }),
 
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In
@@ -75,7 +88,9 @@ export default {
 
 		// If we're building for production (npm run build
 		// instead of npm run dev), minify
-		production && terser()
+		production && terser(),
+
+		inlineSvelte('./src/index.html')
 	],
 	watch: {
 		clearScreen: false
