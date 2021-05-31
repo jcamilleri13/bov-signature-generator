@@ -63,7 +63,7 @@ function generateDots (name, width, height) {
     ...generateDot({
       string: first,
       width,
-      height,
+      height: height / 2,
       scale: 2
     })
   }
@@ -73,10 +73,12 @@ function generateDots (name, width, height) {
     ...generateDot({
       string: last,
       width,
-      height,
+      height: height / 2,
       scale: 2.5
     })
   }
+
+  circleB.cy += height / 2
 
   return { circleA, circleB }
 }
