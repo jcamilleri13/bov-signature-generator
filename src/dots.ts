@@ -1,8 +1,5 @@
 const MAX_INT = 2147483647
 
-const WIDTH = 50
-const HEIGHT = 100
-
 const COLOURS = [
   'rgb(132, 11, 85)',
   'rgb(247, 179, 43)',
@@ -35,7 +32,7 @@ interface GenerateDotsParams {
 }
 
 function generateDot ({ string, width, height, scale }: GenerateDotsParams) {
-  const r = string.length * scale
+  const r = Math.min(string.length * scale, width / 2)
 
   const x = width - (r * 2)
   const y = height - (r * 2)
@@ -49,7 +46,7 @@ function generateDot ({ string, width, height, scale }: GenerateDotsParams) {
   return { r, cx, cy }
 }
 
-function generateDots (name) {
+function generateDots (name, width, height) {
   const [first = '', last = ''] = name.split(' ')
 
   const fillIndexA = first.length % COLOURS.length
@@ -65,8 +62,8 @@ function generateDots (name) {
     fill: COLOURS[fillIndexA],
     ...generateDot({
       string: first,
-      width: WIDTH,
-      height: HEIGHT,
+      width,
+      height,
       scale: 2
     })
   }
@@ -75,8 +72,8 @@ function generateDots (name) {
     fill: COLOURS[fillIndexB],
     ...generateDot({
       string: last,
-      width: WIDTH,
-      height: HEIGHT,
+      width,
+      height,
       scale: 2.5
     })
   }
